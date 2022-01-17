@@ -33,7 +33,10 @@ public class GenerateUtil {
 		JSONObject jsonObject = new JSONObject();
 		String[] demoString = excelTmple.split(" ");
 		if(demoString.length<2){
-			return excelTmple;
+			demoString = excelTmple.split("\\n");
+			if(demoString.length<2){
+				return excelTmple;
+			}
 		}
 
 		List<String> lineItems = new LinkedList<>(Arrays.asList(demoString));
@@ -42,6 +45,7 @@ public class GenerateUtil {
 			String[] cols = lineItem.split("\\t");
 			if(cols.length != 3 || StringUtils.isBlank(cols[0])|| StringUtils.isBlank(cols[1])|| StringUtils.isBlank(cols[2])){
 				errorString+="行错误："+ lineItem+"\n";
+				lineItems.remove(0);
 				continue;
 			}
 			Object object = mapJson(jsonObject, cols[1]);
@@ -124,6 +128,12 @@ public class GenerateUtil {
 
 		}
 		return null;
+	}
+
+	public static void main(String[] args){
+		String aa = "PROFIT_SHARING\tUNIFIED_ORDER_REQ\tString\n" + "\t\t\n" + "\t\t\n" + "APP_ID\tUNIFIED_ORDER_REQ\tString\n" + "\t\t\n" + "MCH_ID\tUNIFIED_ORDER_REQ\tString\n" + "\t\t\n" + "DEVICE_INFO\tUNIFIED_ORDER_REQ\tString\n" + "\t\t\n" + "NONCE_STR\tUNIFIED_ORDER_REQ\tString\n" + "\t\t" +
+				"\n" + "SIGN\tUNIFIED_ORDER_REQ\tString\n" + "\t\t\n" + "SIGN_TYPE\tUNIFIED_ORDER_REQ\tString\n" + "BODY\tUNIFIED_ORDER_REQ\tString\n" + "\t\t\n" + "SUB_APPID\tUNIFIED_ORDER_REQ\tString\n" + "SUB_MCH_ID\tUNIFIED_ORDER_REQ\tString\n" + "SUB_OPENID\tUNIFIED_ORDER_REQ\tString\n" + "DETAIL\tUNIFIED_ORDER_REQ\tarray\n" + "\t\t\n" + "GOODS_DETAIL\tDETAIL\tobject\n" + "GOODS_ID\tGOODS_DETAIL\tString\n" + "WXPAY_GOODS_ID\tGOODS_DETAIL\tString\n" + "GOODS_NAME\tGOODS_DETAIL\tString\n" + "QUANTITY\tGOODS_DETAIL\tString\n" + "PRICE\tGOODS_DETAIL\tString\n" + "GOODS_CATEGORY\tGOODS_DETAIL\tString\n" + "BODY\tGOODS_DETAIL\tString\n" + "ATTACH\tUNIFIED_ORDER_REQ\tString\n" + "\t\t\n" + "OUT_TRADE_NO\tUNIFIED_ORDER_REQ\tString\n" + "\t\t\n" + "FEE_TYPE\tUNIFIED_ORDER_REQ\tSring\n" + "\t\t\n" + "TOTAL_FEE\tUNIFIED_ORDER_REQ\tString\n" + "\t\t\n" + "SPBILL_CREATE_IP\tUNIFIED_ORDER_REQ\tString\n" + "\t\t\n" + "TIME_START\tUNIFIED_ORDER_REQ\tSring\n" + "TIME_EXPIRE\tUNIFIED_ORDER_REQ\tString\n" + "\t\t\n" + "GOODS_TAG\tUNIFIED_ORDER_REQ\tString\n" + "NOTIFY_URL\tUNIFIED_ORDER_REQ\tSring\n" + "\t\t\n" + "\t\t\n" + "TRADE_TYPE\tUNIFIED_ORDER_REQ\tString\n" + "\t\t\n" + "\t\t\n" + "\t\t\n" + "PRODUCT_ID\tUNIFIED_ORDER_REQ\tString\n" + "LIMIT_PAY\tUNIFIED_ORDER_REQ\tSring\n" + "OPEN_ID\tUNIFIED_ORDER_REQ\tString\n" + "SCENE_INFO\tUNIFIED_ORDER_REQ\tobject\n" + "ID\tSCENE_INFO\tString\n" + "\t\t\n" + "NAME\tSCENE_INFO\tString\n" + "\t\t\n" + "AREA_CODE\tSCENE_INFO\tSring\n" + "\t\t\n" + "ADDRESS\tSCENE_INFO\tString\n" + "\t\t\n";
+		System.out.println(translate(aa));
 	}
 
 }
