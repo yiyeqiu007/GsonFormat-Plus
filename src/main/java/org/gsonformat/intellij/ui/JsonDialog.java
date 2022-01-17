@@ -4,10 +4,12 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.MessageType;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.impl.GeneratedMarkerVisitor;
 import com.intellij.psi.impl.source.PsiJavaFileImpl;
 
 import org.apache.http.util.TextUtils;
 import org.gsonformat.intellij.ConvertBridge;
+import org.gsonformat.intellij.common.GenerateUtil;
 import org.gsonformat.intellij.common.PsiClassUtil;
 import org.gsonformat.intellij.config.Config;
 import org.json.JSONArray;
@@ -48,6 +50,7 @@ public class JsonDialog extends JFrame implements ConvertBridge.Operator {
     private JTextField generateClassTF;
     private JPanel generateClassP;
     private JButton formatBtn;
+    private JButton createBtn;
     private PsiClass cls;
     private PsiFile file;
     private Project project;
@@ -69,6 +72,7 @@ public class JsonDialog extends JFrame implements ConvertBridge.Operator {
     private void initListener() {
 
         okButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if (generateClassTF.isFocusOwner()) {
                     editTP.requestFocus(true);
@@ -78,21 +82,22 @@ public class JsonDialog extends JFrame implements ConvertBridge.Operator {
             }
         });
         formatBtn.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 String json = editTP.getText();
-                json = json.trim();
-                if (json.startsWith("{")) {
-                    JSONObject jsonObject = new JSONObject(json);
-                    String formatJson = jsonObject.toString(4);
-                    editTP.setText(formatJson);
-                } else if (json.startsWith("[")) {
-                    JSONArray jsonArray = new JSONArray(json);
-                    String formatJson = jsonArray.toString(4);
-                    editTP.setText(formatJson);
-                }
-
+                editTP.setText(GenerateUtil.formatJson(json));
             }
         });
+
+        createBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                String json = editTP.getText();
+                String format = GenerateUtil.translate(json);
+                editTP.setText(format);
+            }
+        } );
+
         editTP.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent keyEvent) {
@@ -125,11 +130,13 @@ public class JsonDialog extends JFrame implements ConvertBridge.Operator {
             }
         });
         cancelButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
         });
         settingButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 openSettingDialog();
             }
@@ -141,6 +148,7 @@ public class JsonDialog extends JFrame implements ConvertBridge.Operator {
             }
         });
         contentPane2.registerKeyboardAction(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
@@ -242,11 +250,12 @@ public class JsonDialog extends JFrame implements ConvertBridge.Operator {
         settingDialog.setVisible(true);
     }
 
-
+    @Override
     public void cleanErrorInfo() {
         errorInfo = null;
     }
 
+    @Override
     public void setErrorInfo(String error) {
         errorInfo = error;
     }

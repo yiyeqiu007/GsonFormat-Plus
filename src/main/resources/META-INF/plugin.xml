@@ -1,7 +1,7 @@
 <idea-plugin>
     <depends>com.intellij.modules.java</depends>
     <depends>com.intellij.modules.lang</depends>
-    <name>GsonFormat-Plus</name>
+    <name>GsonFormat-Plus+</name>
     <description>
     <![CDATA[
         <h3>English:</h3>
