@@ -30,7 +30,6 @@ public class GenerateUtil {
 
 		String errorString="";
 		String retString="";
-
 		JSONObject jsonObject = new JSONObject();
 		String[] demoString = excelTmple.split(" ");
 		if(demoString.length<2){
@@ -41,7 +40,7 @@ public class GenerateUtil {
 		while (lineItems.size() > 0) {
 			String lineItem = lineItems.get(0);
 			String[] cols = lineItem.split("\\t");
-			if(cols.length != 3){
+			if(cols.length != 3 || StringUtils.isBlank(cols[0])|| StringUtils.isBlank(cols[1])|| StringUtils.isBlank(cols[2])){
 				errorString+="行错误："+ lineItem+"\n";
 				continue;
 			}
@@ -89,9 +88,7 @@ public class GenerateUtil {
 	}
 
 	public static void turnObj(JSONObject object, String key1, String key2, String key3){
-		if (key3.toLowerCase().startsWith("string")) {
-			object.put(key1, "");
-		} else if (key3.toLowerCase().startsWith("object")) {
+	    if (key3.toLowerCase().startsWith("object")) {
 			JSONObject sonJson = new JSONObject();
 			object.put(key1, sonJson);
 		} else if (key3.toLowerCase().startsWith("array")) {
@@ -99,6 +96,8 @@ public class GenerateUtil {
 			JSONObject sonObject = new JSONObject();
 			sonArray.put(sonObject);
 			object.put(key1, sonArray);
+		}else{
+			object.put(key1, "");
 		}
 	}
 
