@@ -7,10 +7,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Description:
@@ -100,9 +97,15 @@ public class GenerateUtil {
 			JSONObject sonObject = new JSONObject();
 			sonArray.put(sonObject);
 			object.put(key1, sonArray);
-		}else{
-			object.put(key1, "");
-		}
+		}else if (key3.toLowerCase().startsWith("date")){
+			object.put(key1, new Date());
+		}else if (key3.toLowerCase().startsWith("int")){
+		    object.put(key1, 0);
+	    }else if (key3.toLowerCase().startsWith("number")){
+		    object.put(key1, 0);
+	    }else{
+		    object.put(key1, "");
+	    }
 	}
 
 	public static Object mapJson(JSONObject jsonObject, String key){
